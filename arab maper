@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>arab-map-interactive</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #f0f0f0; margin:0; padding:0; }
+    svg { width: 95%; height: auto; }
+    text { font-size: 12px; fill: white; pointer-events: none; }
+    .counter { font-size: 10px; fill: black; }
+    #ranking { background: #fff; padding: 10px; border-radius: 8px; display: inline-block; margin: 10px auto; box-shadow: 0 0 5px rgba(0,0,0,0.1); }
+    footer { font-size: 10px; color: #555; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h1>خريطة الدول العربية التفاعلية</h1>
+  <svg viewBox="0 0 1000 500">
+    <!-- مثال: المغرب -->
+    <g id="Morocco" onclick="increment('Morocco')">
+      <path d="M100,300 L150,250 L200,300 L150,350 Z" fill="#c1272d"/>
+      <text x="150" y="300">المغرب</text>
+      <text id="counter-Morocco" x="150" y="315" class="counter">0</text>
+    </g>
+    <!-- مثال: الجزائر -->
+    <g id="Algeria" onclick="increment('Algeria')">
+      <path d="M210,250 L310,250 L310,350 L210,350 Z" fill="#006233"/>
+      <text x="260" y="300">الجزائر</text>
+      <text id="counter-Algeria" x="260" y="315" class="counter">0</text>
+    </g>
+    <!-- أكمل باقي الدول بنفس النمط (سأرسل لك المسارات الجغرافية المضبوطة إذا تريد بدقة) -->
+  </svg>
+
+  <div id="ranking"></div>
+  <footer>تم تصميمه من طرف عُباز عبد المجيد</footer>
+
+  <script>
+    const counters = {
+      Morocco: 0,
+      Algeria: 0
+      // أكمل الدول
+    };
+
+    function increment(country) {
+      counters[country]++;
+      document.getElementById(`counter-${country}`).textContent = counters[country];
+      updateRanking();
+    }
+
+    function updateRanking() {
+      const sorted = Object.entries(counters).sort((a,b)=>b[1]-a[1]);
+      let html = "<strong>الترتيب:</strong><br>";
+      sorted.forEach(([country, count]) => {
+        html += getCountryName(country) + ": " + count + "<br>";
+      });
+      document.getElementById("ranking").innerHTML = html;
+    }
+
+    function getCountryName(id) {
+      const names = {
+        Morocco: "المغرب",
+        Algeria: "الجزائر"
+        // أكمل بقية الدول
+      };
+      return names[id] || id;
+    }
+  </script>
+</body>
+</html>
